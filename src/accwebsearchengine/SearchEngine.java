@@ -69,7 +69,7 @@ public class SearchEngine {
 		int j = 0;
 		TST<Integer> tst = new TST<Integer>();
 		In in = new In(finalPath);
-
+ 
 		while (!in.isEmpty()) {
 			String text = in.readLine();
 			if (j == 0) {
@@ -194,7 +194,7 @@ public class SearchEngine {
 
 		Sort.mergeSort(keyWords);
 		String fileName = "";
-
+		
 		for (String str : keyWords) {
 
 			fileName = fileName + str + "_";
@@ -202,7 +202,7 @@ public class SearchEngine {
 
 		fileName = fileName + ".dat";
 
-		 System.out.println(fileName);
+//		 System.out.println(fileName);
 
 		String filePath = hashMapLocation;
 		String finalPath = filePath + fileName;
