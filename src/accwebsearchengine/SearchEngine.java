@@ -17,7 +17,12 @@ public class SearchEngine {
 	public final static String textFileLocation = "TextFile\\";
 	
 	
-	
+	 /**
+	 * This method tokenizes the input
+	 * 
+	 * @params inputStr - input string by user
+	 * @return keyWords - Strting array conatinin the tokens
+	 */
 	public static String[] getKeywords(String inputStr) {
 		int i = 0;
 		In in = new In(stopWordsLocation);
@@ -43,9 +48,9 @@ public class SearchEngine {
 	}
 
 	/**
-	 * We do the URL indexing by using the URLs from the file and insertion into a hashmap is done
+	 * This method indexes the urls 
 	 * 
-	 * @return - a hashmap having the indexed URLs
+	 * @return Urlindex - a hashmap having the indexed URLs
 	 */
 	public static HashMap<Integer, String> indexURLS() {
 		int i = 0;
@@ -64,10 +69,10 @@ public class SearchEngine {
 	}
 
 	/**
-	 * This method is responsible for creating TST of each text file
+	 * This method creates the TST of each text file
 	 * 
-	 * @param finalPath
-	 * @return
+	 * @param finalPath - the path of the file
+	 * @return tst - the tst of the particular file
 	 */
 	public static TST<Integer> getTST(String finalPath) {
 		int j = 0;
@@ -104,24 +109,17 @@ public class SearchEngine {
 			}
 		}
 
-//        for (String key : tst.keys()) {
-//            System.out.println(key + " " + tst.get(key));
-//        }
-
 		return tst;
 	}
 
 	/**
-	 * This method is responsible to find the the occurrence of the keywords in each
-	 * text file and get the count
+	 * This method computes the frequency of the search query in the TST and inserts the file and frequency in hashmap
 	 * 
-	 * @param keyWords
-	 * @return
+	 * @param keyWords - tokenized input query
+	 * @return freqList - the hash map containing the file name and frequency in key, value pairs 
 	 */
 	public static HashMap<Integer, Integer> getFreqList(String[] keyWords) {
-
-		// Map each text file to its corresponding number into an arraylist
-		ArrayList<String> textList = new ArrayList<>();
+		ArrayList<String> fileList = new ArrayList<>();
 		HashMap<Integer, Integer> freqList = new HashMap<Integer, Integer>();
 
 		File folder = new File(textFileLocation);
@@ -130,43 +128,34 @@ public class SearchEngine {
 		for (File file : files) {
 
 			String myURL = file.getName();
-			// myURL = myURL.substring(0, (myURL.length()-4));
-			textList.add(myURL);
+			fileList.add(myURL);
 
 		}
 
-		for (int i = 0; i < textList.size(); i++) {
+		for (int i = 0; i < fileList.size(); i++) {
 
 			String filePath = textFileLocation;
-			String fileName = textList.get(i);
+			String fileName = fileList.get(i);
 			String finalPath = filePath + fileName;
 
-//			 System.out.println(fileName);
-
-			String tempFileIndex = fileName.substring(0, (fileName.length() - 4));
-			int fileIndex = Integer.parseInt(tempFileIndex);
-//			System.out.println("index: " + fileIndex);
+			String temp = fileName.substring(0, (fileName.length() - 4));
+			int fileIndex = Integer.parseInt(temp);
 
 			TST<Integer> tst = new TST<Integer>();
 			tst = SearchEngine.getTST(finalPath);
-			// System.out.println(tst);
 
-//	        for (String key : tst.keys()) {
-//	        	System.out.println(key + " " + tst.get(key));
-//	        }
 
-			int counter = 0;
+			int count = 0;
 
 			for (String str : keyWords) {
 				if (tst.contains(str)) {
 
-					int count = tst.get(str);
-					// System.out.println(str+" "+count);
-					counter = counter + count;
+					int i = tst.get(str);
+					count = count + i;
 				}
 			}
 
-			freqList.put(fileIndex, counter);
+			freqList.put(fileIndex, count);
 		}
 
 		// System.out.println(freqList);
@@ -176,12 +165,12 @@ public class SearchEngine {
 	/**
 	 * It is used to sort the hashmap having frequency list and return the sorted hashmap
 	 * 
-	 * @param freqList
-	 * @return
+	 * @param freqList - the unsorted hashmap
+	 * @return sortedList - the sorted hashmap
 	 */
 	public static HashMap<Integer, Integer> sortHashMap(HashMap<Integer, Integer> freqList) {
 		// piyush
-		HashMap<Integer, Integer> sortedFreqList = freqList.entrySet().stream()
+		HashMap<Integer, Integer> sortedList = freqList.entrySet().stream()
 		        .sorted(Comparator.comparingInt(e -> -e.getValue()))
 		        .collect(Collectors.toMap(
 		                Map.Entry::getKey,
@@ -191,14 +180,14 @@ public class SearchEngine {
 		        ));
 		System.out.println("Unsorted freq list (key, value=frequency) ->" + freqList);
 		System.out.println("sorted freq list (key, value=frequency) -> " + sortedFreqList);
-		return sortedFreqList;
+		return sortedList;
 	}
 
 	/**
-	 * The hashmap for frequncy list for Page ranking is stored.
+	 * The hashmap for frequncy list for Page ranking is stored in the memory.
 	 * 
-	 * @param freqList
-	 * @param keyWords
+	 * @param freqList - the sorted hash map
+	 * @param keyWords - the tokenized user input 
 	 */
 	public static void storeHashMap(HashMap<Integer, Integer> freqList, String[] keyWords) {
 
@@ -233,10 +222,10 @@ public class SearchEngine {
 	}
 
 	/**
-	 * This method is used to get the hashmap used for page ranking is retreived which uses the frequency list of the searched keywords
+	 * This method is used to get the hashmap from memory which uses the frequency list of the searched keywords
 	 * 
-	 * @param keyWords
-	 * @return
+	 * @param keyWords - the tokenized user query
+	 * @return freqList - the sorted hash map
 	 */
 	public static HashMap<Integer, Integer> retreiveHashMap(String[] keyWords) {
 
@@ -273,14 +262,8 @@ public class SearchEngine {
 		return freqList;
 
 	}
-//	
-
-	/**
-	 * Main method which is used to do the complete flow of the process
-	 * 
-	 * @param args
-	 * @throws IOException 
-	 */
+	
+	
 	public static void main(String[] args) throws IOException {
 		SpellChecker1 c= new SpellChecker1();
 
