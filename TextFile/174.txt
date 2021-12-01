@@ -1,0 +1,374 @@
+php - Customise login in Laravel 8 - Stack Overflow
+php - Customise login in Laravel 8 - Stack Overflow Stack Overflow About Products For Teams Stack Overflow Public questions & answers Stack Overflow for Teams Where developers & technologists share private knowledge with coworkers Jobs Programming & related technical career opportunities Talent Recruit tech talent & build your employer brand Advertising Reach developers & technologists worldwide About the company Loading… Log in Sign up current community Stack Overflow help chat Meta Stack Overflow your communities Sign up or log in to customize your list. more stack exchange communities company blog Home Public Questions Tags Users Collectives Explore Collectives Find a Job Jobs Companies Teams Stack Overflow for Teams – Collaborate and share knowledge with a private group. Create a free Team What is Teams? Teams Create free Team Collectives on Stack Overflow Find centralized, trusted content and collaborate around the technologies you use most. Learn more Teams Q&A for work Connect and share knowledge within a single location that is structured and easy to search. Learn more Customise login in Laravel 8 [duplicate] Ask Question Asked today Active today Viewed 19 times 0 This question already has answers here: Laravel login with username instead of email (2 answers) Closed 2 hours ago. I tried to change the login method by replacing the email with the username. register.blade.php 
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Register') }}</div>
+
+                <div class="card-body">
+                    <form method="POST" action="{{ route('register') }}">
+                        @csrf
+
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="telegram" class="col-md-4 col-form-label text-md-right">{{ __('Telegram') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="telegram" type="telegram" class="form-control @error('telegram') is-invalid @enderror" name="telegram" value="{{ old('telegram') }}" required autocomplete="telegram">
+
+                                @error('telegram')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="skills" class="col-md-4 col-form-label text-md-right">{{ __('Skills') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="skills" type="skills" class="form-control @error('skills') is-invalid @enderror" name="skills" value="{{ old('skills') }}" required autocomplete="skills">
+
+                                @error('skills')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="education" class="col-md-4 col-form-label text-md-right">{{ __('Few world about you') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="education" type="education" class="form-control @error('education') is-invalid @enderror" name="education" value="{{ old('education') }}" required autocomplete="education">
+
+                                @error('education')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="sponsor" class="col-md-4 col-form-label text-md-right">{{ __('Come from :') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="sponsor" type="sponsor" class="form-control @error('sponsor') is-invalid @enderror" name="sponsor" value="{{ old('sponsor') }}" required autocomplete="sponsor">
+
+                                @error('sponsor')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Register') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+ login.blade.php 
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Login') }}</div>
+
+                <div class="card-body">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="remember">
+                                        {{ __('Remember Me') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
+
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+ database personnal access token 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePersonalAccessTokensTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('tokenable');
+            $table->string('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('personal_access_tokens');
+    }
+}
+ database user 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateUsersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable()->unique();
+            $table->string('education')->nullable();
+            $table->string('sponsor')->nullable();
+            $table->string('telegram')->unique();
+            $table->boolean('is_admin')->default(0);
+            $table->text('skills')->nullable();
+            $table->boolean('is_deleted')->default(0);
+            $table->boolean('is_verified')->default(0);
+            $table->boolean('is_banned')->default(0);
+            $table->integer('rank')->default(0);         
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('users');
+    }
+}
+ logincontroller 
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
+class LoginController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+}
+ Model user 
+namespace App\Models;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+    use \HighIdeas\UsersOnline\Traits\UsersOnlineTrait;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'password',
+        'skills',
+        'education',
+        'sponsor',
+        'telegram',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    // /**
+    //  * The attributes that should be cast.
+    //  *
+    //  * @var array
+    //  */
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
+
+    public function topics()
+    {
+        return $this->hasMany('App\Models\Discussion');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany('App\Models\DiscussionReply');
+    }
+}
+ But I don't know why it doesn't login me, registering all is working fine. But it's just the login that doesn't connect, its loading but nothing changes. I have almost finished my forum project, I just have this point to do and another. Anyone have any idea where the problem is? php laravel Share Follow edited 3 hours ago Maik Lowrey 2,61111 gold badge55 silver badges2121 bronze badges asked 3 hours ago lucaslucas 1544 bronze badges 0 Add a comment | 1 Answer 1 Active Oldest Votes 0 By default, Laravel uses email as the key for the login form. Check here: https://github.com/laravel/ui/blob/b3e804559bf3973ecca160a4ae1068e6c7c167c6/auth-backend/AuthenticatesUsers.php#L150 Override this function in your controller as: /**
+ * Get the login username to be used by the controller.
+ *
+ * @return string
+ */
+public function username()
+{
+    return 'name';
+}
+ It will start working. Share Follow answered 3 hours ago Muhammad NaumanMuhammad Nauman 1,06466 silver badges1010 bronze badges 1 thanks resolved, the best of the best – lucas 3 hours ago Add a comment | Not the answer you're looking for? Browse other questions tagged php laravel or ask your own question. The Overflow Blog The four engineering metrics that will streamline your software delivery Podcast 396: Does modern parenting require spyware? Featured on Meta Reducing the weight of our footer Two B or not two B - Farewell, BoltClock and Bhargav! Community input needed: The rules for collectives articles Linked 1 Laravel login with username instead of email Related 69 Symfony2 collection of Entities - how to add/remove association with existing entities? 210 Laravel redirect back to original destination after login 450 Laravel requires the Mcrypt PHP extension 516 How to Create Multiple Where Clause Query Using Laravel Eloquent? 361 Get the Last Inserted Id Using Laravel Eloquent 545 How can I remove a package from Laravel using PHP Composer? 355 Laravel Checking If a Record Exists 546 Best Practices for Custom Helpers in Laravel 5 1 form doesn't work in laravel 7, nothing happened 2 edit profile dont worked :/ laravel 7 Hot Network Questions How are paths of particles tracked in particle accelerators? Can the 6502 clock be changed on the fly? How is the roof on this bridge town formed? How did mechanical engineers work before SolidWorks? QGIS: label only if more than 1 polygon visible in map extent? How did the classic Macintosh come to use Eurocard connectors? Why does 'find' command on Alpine seem to require escaping '?' but not on Ubuntu? How to justify burning people for energy? Does the AstraZeneca COVID-19 vaccine (or any known vaccine) increase infection rates? Name of a live-action Saturday morning show from the '70s, involving bigfoot/caveman? What is the most unique type of philosophy someone can naturally develop? Why was Pepsi free in 1985? Find shortest path between two vertices that uses at most one negative edge Meaning of 'white mask on my otherwise tan face' Converting polygon to list of coordinates with shapely What size are these mosaics of Justinian and Theodora? Without Haste, what Efficiency level does a Pickaxe need to insta-mine Stone? Wrong inaugural move in game 2 of Carlsen - Nepomniachtchi How can you replace the last occurrence of a character in a string (text column)? Which components can be labelled as "BD" on a printed circuit board? Can I include GPLv3 licensed documentation in a collection of GFDL licensed documents, or: what are the limits of an "Aggregate" in GFDLv1.3/GPLv3? Can I manually reset Cellular network configuration without losing WiFi passwords? Why is Makkari deaf and mute? What is the simplest way to invert a signal with just one jumper? more hot questions lang-php Stack Overflow Questions Jobs Developer Jobs Directory Salary Calculator Help Mobile Products Teams Talent Advertising Enterprise Company About Press Work Here Legal Privacy Policy Terms of Service Contact Us Cookie Settings Cookie Policy Stack Exchange Network Technology Culture & recreation Life & arts Science Professional Business API Data Blog Facebook Twitter LinkedIn Instagram site design / logo © 2021 Stack Exchange Inc; user contributions licensed under cc by-sa. rev 2021.11.30.40849 Stack Overflow works best with JavaScript enabled Your privacy By clicking “Accept all cookies”, you agree Stack Exchange can store cookies on your device and disclose information in accordance with our Cookie Policy. Accept all cookies Customize settings

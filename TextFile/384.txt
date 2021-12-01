@@ -1,0 +1,164 @@
+Why solve a problem twice? Design patterns let you apply existing solutions to your code - Stack Overflow Blog
+Why solve a problem twice? Design patterns let you apply existing solutions to your code - Stack Overflow Blog Essays, opinions, and advice on the act of computer programming from Stack Overflow. Search for: Latest Newsletter Podcast Company code-for-a-living October 13, 2021 Why solve a problem twice? Design patterns let you apply existing solutions to your code Software design patterns are like best practices employed by many experienced software developers. You can use design patterns to make your application scalable and flexible. Giridhar Talla Content Marketer The most satisfying problems in software engineering are those that no one has solved before. Cracking a unique problem is something that you can use in job interviews and talk about in conferences. But the reality is that the majority of challenges you face will have already been solved. You can use those solutions to better your own software. Software design patterns are typical solutions for the reoccurring design problems in software engineering. They’re like the best practices employed by many experienced software developers. You can use design patterns to make your application scalable and flexible. In this article, you’ll discover what design patterns are and how you can apply them to develop better software applications, either from the start or through refactoring your existing code. Note: Before learning design patterns, you should have a basic understanding of object-oriented programming. What are design patterns? Design patterns are solutions to commonly occurring design problems in developing flexible software using object-oriented programming. Design patterns typically use classes and objects, but you can also implement some of them using functional programming. They define how classes should be structured and how they should communicate with one another in order to solve specific problems. Some beginners may mix up design patterns and algorithms. While an algorithm is a well-defined set of instructions, a design pattern is a higher-level description of a solution. You can implement a design pattern in various ways, whereas you must follow the specific instructions in an algorithm. They don’t solve the problem; they solve the design of the solution. Design patterns are not blocks of code you can copy and paste to implement. They are like frameworks of solutions with which one can solve a specific problem. Classification of design patterns The book, Design Patterns- Elements of Reusable Object-Oriented Software written by the Gang of Four (Erich Gamma, John Vlissides, Ralph Johnson, and Richard Helm) introduced the idea of design patterns in software development. The book contains 23 design patterns to solve a variety of object-oriented design problems. These patterns are a toolbox of tried and tested solutions for various common problems that you may encounter while developing software applications. Design patterns vary according to their complexity, level of detail, and scope of applicability for the whole system. They can be classified into three groups based on their purpose: Creational patterns describe various methods for creating objects to increase code flexibility and reuse. Structural patterns describe relations between objects and classes in making them into complex structures while keeping them flexible and efficient. Behavioral patterns define how objects should communicate and interact with one another. Why should you use design patterns? You can be a professional software developer even if you don’t know a single design pattern. You may be using some design patterns without even knowing them. But knowing design patterns and how to use them will give you an idea of solving a particular problem using the best design principles of object-oriented programming. You can refactor complex objects into simpler code segments that are easy to implement, modify, test, and reuse. You don’t need to confine yourself to one specific programming language; you can implement design patterns in any programming language. They represent the idea, not the implementation. Design patterns are all about the code. They make you follow the best design principles of software development, such as the open/closed principle (objects should be open for extension but closed for modification) and the single responsibility principle (A class should have only one reason to change). This article discusses design principles in greater detail. You can make your application more flexible by using design patterns that break it into reusable code segments. You can add new features to your application without breaking the existing code at any time. Design patterns also enhance the readability of code; if someone wants to extend your application, they will understand the code with little difficulty. What are useful design patterns? Every design pattern solves a specific problem. You can use it in that particular situation. When you use design patterns in the wrong context, your code appears complex, with many classes and objects. The following are some examples of the most commonly used design patterns. Singleton design pattern Object oriented code has a bad reputation for being cluttered. How can you avoid creating large numbers of unnecessary objects? How can you limit the number of instances of a class? And how can a class control its instantiation? Using a singleton pattern solves these problems. It’s a creational design pattern that describes how to define classes with only a single instance that will be accessed globally. To implement the singleton pattern, you should make the constructor of the main class private so that it is only accessible to members of the class and create a static method (getInstance) for object creation that acts as a constructor. Here’s the implementation of the singleton pattern in Python. # Implementation of the Singleton Pattern
+
+class Singleton(object):
+    _instance = None
+    def __init__(self):
+        raise RuntimeError('Call getInstance() instead')
+
+    @classmethod
+    def getInstance(cls):
+        if cls._instance is None:
+            print('Creating the object')
+            cls._instance = super().__new__(cls)
+        return cls._instance The above code is the traditional way to implement the singleton pattern, but you can make it easier by using __new__ or creating a metaclass). You should use this design pattern only when you are 100% certain that your application requires only a single instance of the main class. Singleton pattern has several drawbacks compared to other design patterns: You should not define something in the global scope but singleton pattern provides globally accessible instance. It violates the Single-responsibility principle. Check out some more drawbacks of using a singleton pattern. Decorator design pattern If you’re following SOLID principles (and in general, you should), you’ll want to create objects or entities that are open for extension but closed for modification. How can you extend the functionality of an object at run-time? How can you extend an object’s behavior without affecting the other existing objects? You might consider using inheritance to extend the behavior of an existing object. However, inheritance is static. You can’t modify an object at runtime. Alternatively, you can use the decorator pattern to add additional functionality to objects (subclasses) at runtime without changing the parent class. The decorator pattern (also known as a wrapper) is a structural design pattern that lets you cover an existing class with multiple wrappers. For wrappers, it employs abstract classes or interfaces through composition (instead of inheritance). In composition, one object contains an instance of other classes that implement the desired functionality rather than inheriting from the parent class. Many design patterns, including the decorator, are based on the principle of composition. Check out why you should use composition over inheritance. # Implementing decorator pattern
+
+class Component():
+
+  def operation(self):
+    pass
+
+class ConcreteComponent(Component):
+
+  def operation(self):
+      return 'ConcreteComponent'
+
+class Decorator(Component):
+
+  _component: Component = None
+
+  def __init__(self, component: Component):
+      self._component = component
+
+  @property
+  def component(self):
+    return self._component
+
+
+  def operation(self):
+      return self._component.operation()
+
+class ConcreteDecoratorA(Decorator):
+
+  def operation(self):
+      return f"ConcreteDecoratorA({self.component.operation()})"
+
+
+class ConcreteDecoratorB(Decorator):
+
+  def operation(self):
+      return f"ConcreteDecoratorB({self.component.operation()})"
+
+
+simpleComponent = ConcreteComponent()
+print(simpleComponent.operation())
+
+# decorators can wrap simple components as well as the other decorators also.
+decorator1 = ConcreteDecoratorA(simple)
+print(decorator1.operation())
+
+decorator2 = ConcreteDecoratorB(decorator1)
+print(decorator2.operation()) The above code is the classic way of implementing the decorator pattern. You can also implement it using functions. The decorator pattern implements the single-responsibility principle. You can split large classes into several small classes, each implementing a specific behavior and extend them afterward. Wrapping the decorators with other decorators increases the complexity of code with multiple layers. Also, it is difficult to remove a specific wrapper from the wrappers’ stack. Strategy design pattern How can you change the algorithm at the run-time? You might tend to use conditional statements. But if you have many variants of algorithms, using conditionals makes our main class verbose. How can you refactor these algorithms to be less verbose? The strategy pattern allows you to change algorithms at runtime. You can avoid using conditional statements inside the main class and refactor the code into separate strategy classes. In the strategy pattern, you should define a family of algorithms, encapsulate each one and make them interchangeable at runtime. You can easily implement the strategy pattern by creating separate classes for algorithms. You can also implement different strategies as functions instead of using classes. Here’s a typical implementation of the strategy pattern: # Implementing strategy pattern
+from abc import ABC, abstractmethod
+
+class Strategy(ABC):
+    @abstractmethod
+    def execute(self):
+        pass
+
+
+class ConcreteStrategyA(Strategy):
+    def execute(self):
+        return "ConcreteStrategy A"
+
+
+class ConcreteStrategyB(Strategy):
+    def execute(self):
+        return "ConcreteStrategy B"
+
+
+class Default(Strategy):
+    def execute(self):
+        return "Default"
+
+
+class Context:
+    strategy: Strategy
+
+    def setStrategy(self, strategy: Strategy = None):
+        if strategy is not None:
+            self.strategy = strategy
+        else:
+            self.strategy = Default()
+
+    def executeStrategy(self):
+        print(self.strategy.execute())
+
+
+## Example application
+appA = Context()
+appB = Context()
+appC = Context()
+
+appA.setStrategy(ConcreteStrategyA())
+appB.setStrategy(ConcreteStrategyB())
+appC.setStrategy()
+
+appA.executeStrategy()
+appB.executeStrategy()
+appC.executeStrategy() In the above code snippet, the client code is simple and straightforward. But in real-world application, the context changes depend on user actions, like when they click a button or change the level of the game. For example, in a chess application, the computer uses different strategy when you select the level of difficulty. It follows the single-responsibility principle as the massive content main (context) class is divided into different strategy classes. You can add as many additional strategies as you want while keeping the main class unchanged (open/closed principle). It increases the flexibility of our application. It would be best to use this pattern when your main class has many conditional statements that switch between different variants of the same algorithm. However, if your code contains only a few algorithms, there is no need to use a strategy pattern. It just makes your code look complicated with all of the classes and objects. State design pattern Object oriented programming in particular has to deal with the state that the application is currently in. How can you change an object’s behavior based on its internal state? What is the best way to define state-specific behavior? The state pattern is a behavioral design pattern. It provides an alternative approach to using massive conditional blocks for implementing state-dependent behavior in your main class. Your application behaves differently depending on its internal state, which a user can change at runtime. You can design finite state machines using the state pattern. In the state pattern, you should define separate classes for each state and add transitions between them. # implementing state pattern
+
+from __future__ import annotations
+from abc import ABC, abstractmethod
+
+
+class Context:
+
+    _state = None
+
+    def __init__(self, state: State):
+        self.setState(state)
+
+    def setState(self, state: State):
+
+        print(f"Context: Transitioning to {type(state).__name__}")
+        self._state = state
+        self._state.context = self
+
+    def doSomething(self):
+        self._state.doSomething()
+
+
+class State(ABC):
+    @property
+    def context(self):
+        return self._context
+
+    @context.setter
+    def context(self, context: Context):
+        self._context = context
+
+    @abstractmethod
+    def doSomething(self):
+        pass
+
+
+class ConcreteStateA(State):
+    def doSomething(self):
+        print("The context is in the state of ConcreteStateA.")
+        print("ConcreteStateA now changes the state of the context.")
+        self.context.setState(ConcreteStateB())
+
+
+class ConcreteStateB(State):
+    def doSomething(self):
+        print("The context is in the state of ConcreteStateB.")
+        print("ConcreteStateB wants to change the state of the context.")
+        self.context.setState(ConcreteStateA())
+
+
+# example application
+
+context = Context(ConcreteStateA())
+context.doSomething()
+context.doSomething() State pattern follows both the single-responsibility principle as well as the open/closed principle. You can add as many states and transitions as you want without changing the main class. The state pattern is very similar to the strategy pattern, but a strategy is unaware of other strategies, whereas a state is aware of other states and can switch between them. If your class (or state machine) has a few states or rarely changes, you should avoid using the state pattern. Command design pattern The command pattern is a behavioral design pattern that encapsulates all the information about a request into a separate command object. Using the command pattern, you can store multiple commands in a class to use them over and over. It lets you parameterize methods with different requests, delay or queue a request’s execution, and support undoable operations. It increases the flexibility of your application. A command pattern implements the single-responsibility principle, as you have divided the request into separate classes such as invokers, commands, and receivers. It also follows the open/closed principle. You can add new command objects without changing the previous commands. Suppose you want to implement reversible operations (like undo/redo) using a command pattern. In that case, you should maintain a command history: a stack containing all executed command objects and the application’s state. It consumes a lot of RAM, and sometimes it is impossible to implement an efficient solution. You should use the command pattern if you have many commands to execute; otherwise, the code may become more complicated since you’re adding a separate layer of commands between senders and receivers. Conclusion According to most software design principles including the well-established SOLID principles, you should write reusable code and extendable applications. Design patterns allow you to develop flexible, scalable, and maintainable object-oriented software using best practices and design principles. All the design patterns are tried and tested solutions for various recurring problems. Even if you don’t use them right away, knowing about them will give you a better understanding of how to solve different types of problems in object-oriented design. You can implement the design patterns in any programming language as they are just the description of the solution, not the implementation. If you’re going to build large-scale applications, you should consider using design patterns because they provide a better way of developing software. If you’re interested in getting to know these patterns better, consider implementing each design pattern in your favorite programming language. Tags: design patterns, software development The Stack Overflow Podcast is a weekly conversation about working in software development, learning to code, and the art and culture of computer programming. Related code-for-a-living July 19, 2021 Privacy is an afterthought in the software lifecycle. That needs to change. The key to combining privacy and innovation is baking it into the SDLC. Analogous to application security's (AppSec) upstream shift into the development cycle, privacy belongs at the outset of development, not as an afterthought. Here's why. Cillian Kieran Content Marketer newsletter October 22, 2021 The Overflow #96: A database built for a firehose Welcome to ISSUE #96 of The Overflow! This newsletter is by developers, for developers, written and curated by the Stack Overflow team and Cassidy Williams at Netlify. This week: what drives growth in cybersecurity questions on Stack Overflow, teaching an AI to bid on properties in Monopoly, and every talk from Jamstack Conf 2021 in one handy playlist.… Ryan Donovan and Cassidy Williams code-for-a-living October 18, 2021 Code quality: a concern for businesses, bottom lines, and empathetic programmers Code quality affects the mental state of a programmer, communication within their team, and the incentives attached to their work. Improve your code and you can improve your organizational health and competence as a whole. Isaac Lyman Content Marketer code-for-a-living June 21, 2021 Can InnerSource bring open source practices to closed corporate bureaucracies? Open source won. Now, the OSS way of working is making inroads into new territories: the corporate engineering department. Ryan Donovan Content Marketer 21 Comments Robert Harvey says: 13 Oct 21 at 12:02 Some thoughts: 1. The Gang of Four book is nearly thirty years old. 2. Many software patterns in the book are workarounds for missing programming language features. 3. There are many ways to do things in software development, some of which work better than others in a given situation. That’s why we have more than one data structure and don’t just use arrays for everything. 4. Used improperly, “pattern-driven development” is a hazard. Rather than asking “What pattern should I use for my specific thing,” learn the patterns and their appropriate uses, so that you can recognize a suitable use for one of these patterns when you encounter a situation that requires it. Reply Ruud Helderman says: 13 Oct 21 at 6:08 1. Good wine ages well. The OSI model is 40+ years old; it still keeps the internet running. 2. Those programming language features are implementations of software patterns in the book. ? 3. GoF is not a code of law. It just helps developers express their ideas more efficiently. If the whole team speaks the lingo, then “Let’s try composite pattern” works a lot better than “I have this wild idea with three classes…” 4. Like a sharp knife, it’s a useful tool; but only in skilled hands. Reply EJP says: 15 Oct 21 at 5:36 1. The Internet predates OSI by several years, and does not use the OSI model. It has its own reference model. The OSI model was itself considerably oversold, but was never actually intended for any other purpose than describing the OSI protocol stack, which itself is now defunct. I would have expected you to know at least some of that. 2. For all the fuss that was made about design patterns, few beyond about half those in the original GoF book have survived, and the sustained attempt that was made at the time to reduce the whole of computer science to design patterns failed miserably, as did the real purpose of the book which was to introduce a heavy-handed ‘pattern language’ into the design space. There are a few design patterns that are of genuine use, as much gor standardizing nomenclature as anything else, but it is indeed 25 years too late to be barking up this particular tree. Reply Ruud Helderman says: 18 Oct 21 at 12:46 1. Finally someone to spot the flaw! I stand corrected. That sentence should have been: “TCP/IP is 47 years old.” Point being it’s no use disqualifying something based purely on its age. 2. Ambitions aside, the book is giving us the nomenclature. That still serves its purpose. Regardless of whether ‘observer pattern’ is built into our favorite programming language or not, we know what we are trying to solve with it, and how. Reply gounsch says: 14 Oct 21 at 1:10 GoF book is nearly 30 years old and yet most of the rules stated there still apply especially to object oriented paradigm. For example, “Composition over inheritance” is mentioned in starting pages of that book. Technologies change and will keep changing drastically, software design fundamentals most likely won’t change. Reply Sam Whitehead says: 14 Oct 21 at 11:35 I agree but the content of the article doesn’t reproduce any of these problems, aside from that it uses the word “design patterns.” (A term which as you mention could be better phrased as “the clever workarounds of Java programmers in the 1990s.”) Reply Foo says: 15 Oct 21 at 11:24 Not related to “software” or Computer Programming, per se, but I’ve always found #2 funny. Those features aren’t “missing” from the programming language. The language is just a language. It’s PEOPLE who extract patterns when faced with problems, and apply those patterns. Think of problems from High School Trigonometry or Calculus. Did you or did you not have certain approaches that you used to solve problems there? Or, closer to home, think of Binary Search. When you’re asked if a problem that you’re solving in O(n) time can be “sped up”, you typically think about sorting the data, so that you could use Binary Search to do certain find operations faster. That’s a “pattern”. It’s not a missing feature of anything. I’m guessing you’re one of that FP crowd who’s read Norvig’s essay, and failed to see the extreme oversimplification in it. I would suggest http://blog.cleancoder.com/uncle-bob/2014/11/24/FPvsOO.html . He doesn’t refute Norvig’s claims 1-1, but he makes some interesting points on OO and patterns that go beyond “patterns are missing features of languages”. Reply Ben Cottrell says: 13 Oct 21 at 3:23 I feel that this blog is incomplete without a link and mention for ‘Choosing the right Design Pattern’ over on SoftwareEngineering.SE: https://softwareengineering.stackexchange.com/questions/227868/choosing-the-right-design-pattern Reply slartidan says: 14 Oct 21 at 1:22 Design patterns are widely known but also highly disputed. In my opinion knowing design patterns can help you to get the right ideas for your solution. But when designing software you should not try to stick to those predefined patterns – instead use them as inspiration and develop software that best fits your specific, unique task. Reply Bryan E says: 14 Oct 21 at 6:16 It would be nice if you used the same names in the examples and the diagrams. Older doesn’t meet obsolete; thank you for reminding people that patterns are the Nouns of programming (algorithms are the Verbs) Reply EJP says: 15 Oct 21 at 5:44 Coming soon to a theatre near you: 1. How Aspect-Oriented Programming is going to change the world. 2. The Joys of Top-Down Programming. 3. Structured Programming is the end of evolution as we know it. 4. Welcome to the subroutine. 5. Formula Translator 1957. You’re a bit late onto this bandwagon. It has moved on, just as all the others have, most of them to nowhere. Reply laundmo says: 15 Oct 21 at 8:49 Why would you need a Singleton in Python, where modules are already inherently singleton? If you have the need for a Singleton in Python, you should likely make that a module instead. Ultimately, when you need to use a singleton in Python you should reconsider your whole design, as its indicative of a underlying issue. There is no case in which a Factory is not superiour to a Singleton. In fact, this article explains a Factory pattern and not a Singleton, as the getInstance (camelCase in python, yikes) acts like a Factory for the class it is a part of. A “true” Singleton in Python would have to either overwrite `__new__` or provide a metaclass. There is no issue with making just one instance of a class. There is a issue if you need to make that class enforce only one instance existing. Reply 404 says: 15 Oct 21 at 12:13 Learn design patterns. Then forget about them completely and just code in a way that makes sense. If a “design pattern” makes sense for a given scenario then hopefully what you learned will come forth through your code, without having to think about actual “design patterns”. Reply Jimbo says: 15 Oct 21 at 6:19 Those pictures that attempt to visually explain the patterns are very artistic. I literally cannot tell what they are supposed to be as they have arrows and terms and code flying all over the place. Reply HaveSpacesuit says: 18 Oct 21 at 2:30 They are UML class diagrams. They actually are following a strict ruleset. I remember learning them in college, though I have to look up specifics every now and then. Reply goarilla says: 16 Oct 21 at 11:01 Are these examples actual valid python code ? Because it throws errors: $ python3 try.py File “try.py”, line 16 print(f”Context: Transitioning to {type(state).__name__}”) ^ SyntaxError: invalid syntax $ python try.py File “try.py”, line 11 def __init__(self, state: State): ^ SyntaxError: invalid syntax Cheers Reply martineau says: 11 Nov 21 at 3:07 I noticed that the Python examples don’t follow the [PEP 8 – Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/) guidelines which I found somewhat shall we say, disturbing. Reply Nam Le says: 17 Oct 21 at 12:16 By “scalable”, do you mean performance-wise ? Or the ease to add newer functionality ? (I know I’m stretching the definition of “scalable” here) Because I think applying a design pattern may make the code easier to maintain and extend, but I don’t see how it can improve performance of an application. I have read a few articles about design patterns. I find most articles do well at explaining what they are, how to apply them…but I wish they focus more on the initial problem that this pattern is trying to solve. It’s hard to grasp the benefit of such solution when the reader doesn’t even know what’s the problem is. Reply Samuel says: 20 Oct 21 at 1:49 Scalable means extendable We can add any number of new features without breaking the existing code. UI Reply Stephen Boston says: 17 Oct 21 at 4:42 I have seen code in which the programmer has used maybe every design pattern that can be by any tangent applied. The result is a dense tower of verbose abstraction. I saw one piece where we had a factory to create a factory to create a data source that used a resource locator and a system agent to open a file. Well — not exactly like that but enough like that to put me in despair. I had to find the bug that had been spawned and then fix it without destroying it. Read the books for good ideas then throw them away and never think of them again. Reply Ricardo says: 22 Oct 21 at 7:14 I don’t know why those examples where in Python, instead of Java, for example…. Python don’t even have interfaces Reply Leave a Reply Cancel reply Your email address will not be published. Required fields are marked * Comment Name * Email * Website Save my name, email, and website in this browser for the next time I comment. ? This site uses Akismet to reduce spam. Learn how your comment data is processed. © 2021 All Rights Reserved. Proudly powered by Wordpress Stack Overflow Questions Jobs Developer Jobs Directory Salary Calculator Products Teams Talent Advertising Enterprise Company About Press Work Here Legal Privacy Policy Contact Us Channels Podcast Newsletter Facebook Twitter LinkedIn Instagram
