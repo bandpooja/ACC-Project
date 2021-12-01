@@ -23,8 +23,7 @@ public class SpellChecker1 {
 
 	public SpellChecker1() {
 		words = new ArrayList();	
-	} // main
-	// SpellChecker
+	} 
 	
 	
 	public static String Correct_String() throws IOException
@@ -83,6 +82,7 @@ public class SpellChecker1 {
 		
 	}
 
+	 // to get word from text files and store a words in dictionary
 	public static void loadDictionary(String fileName) {
 		BufferedReader reader;
 		FileReader freader;
@@ -105,13 +105,13 @@ public class SpellChecker1 {
 				}
 
 				holder = reader.readLine();
-			} // while
+			} 
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: That file cannot be found.");
 		} catch (IOException e) {
 			System.out.println("ERROR: The file may be locked. It cannot be read from properly.");
-		} // catch
-	} // loadDictionary
+		} 
+	}
 
 	// find minimum operation required for word correction
 	private static int findTheMinimum(int a, int b, int c) {
@@ -138,7 +138,7 @@ public class SpellChecker1 {
 		m = testWord.length();
 
 		// if one of the words is empty (a length of zero), the levenshtein distance
-		// is simply the length of the input word.
+		
 		if (n == 0) {
 			return m;
 		} // if
@@ -234,12 +234,12 @@ public class SpellChecker1 {
 		}
 		c = 0;
 		
-	} // findClosestMatch
+	} 
 
 	public void addToDictionary(String word) {
 		// add a word to the list of words.
 		words.add(word);
-	} // addToDictionary
+	} 
 
 	public static void main(String args[]) throws FileNotFoundException {
 
