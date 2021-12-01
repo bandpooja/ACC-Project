@@ -2,21 +2,18 @@ package accwebsearchengine;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import Spell_check.SpellChecker1;
 import textprocessing.*;
 
 import static java.util.stream.Collectors.toMap;
 
 public class SearchEngine {
 	
-	public final static String hashMapLocation = "hashmap\\";
-	public final static String stopWordsLocation = "stop-words.txt";
-	public final static String urlLocation = "urls.txt";
-	public final static String textFileLocation = "TextFile\\";
-	
-	
+	// links to file locations
+	public final static String hashMapLocation = "C:\\Users\\vanam\\Downloads\\MynewProject\\MynewProject\\hashmap\\";
+	public final static String stopWordsLocation = "C:\\Users\\vanam\\Downloads\\MynewProject\\MynewProject\\src\\accwebsearchengine\\stop-words.txt";
+	public final static String urlLocation = "C:\\Users\\vanam\\Downloads\\MynewProject\\MynewProject\\urls.txt";
+	public final static String textFileLocation = "C:\\Users\\vanam\\Downloads\\MynewProject\\MynewProject\\TextFile\\";
 	
 	public static String[] getKeywords(String inputStr) {
 		int i = 0;
@@ -31,6 +28,7 @@ public class SearchEngine {
 			inputStr = inputStr.replaceAll(text, "");
 		}
 
+		// System.out.println(inputStr);
 
 		StringTokenizer st = new StringTokenizer(inputStr, " ");
 		String[] keyWords = new String[st.countTokens()];
@@ -43,10 +41,9 @@ public class SearchEngine {
 	}
 
 	/**
-	 * This methods is responsible for indexing URLs by fetching URLs from file and
-	 * inserting each URL into Hashmap
+	 * This methods indexes the url and inserts them into hashmap
 	 * 
-	 * @return
+	 * @return urlIndex - hashmap containing the indexed urls
 	 */
 	public static HashMap<Integer, String> indexURLS() {
 		int i = 0;
@@ -59,16 +56,14 @@ public class SearchEngine {
 			UrlIndex.put(i, text);
 			i++;
 		}
-		// piyush
-		System.out.println("URLS Indexed -> " + UrlIndex + "\n");
 		return UrlIndex;
 	}
 
 	/**
-	 * This method is responsible for creating TST of each text file
+	 * This method creates the TST for each file
 	 * 
-	 * @param finalPath
-	 * @return
+	 * @param finalPath - the path of the text file for which TST is to be created
+	 * @return tst - the trie for the particular file
 	 */
 	public static TST<Integer> getTST(String finalPath) {
 		int j = 0;
@@ -105,19 +100,15 @@ public class SearchEngine {
 			}
 		}
 
-//        for (String key : tst.keys()) {
-//            System.out.println(key + " " + tst.get(key));
-//        }
-
 		return tst;
 	}
 
 	/**
-	 * This method is responsible to find the the occurrence of the keywords in each
-	 * text file and get the count
+	 * This method calculates the number of occurances of search word in the trie
+	 * and inserts the file path and the frequency in hash map
 	 * 
-	 * @param keyWords
-	 * @return
+	 * @param keyWords - tokenized input query
+	 * @return freqList - the hashmap containing the file name and frequency in key, value pairs
 	 */
 	public static HashMap<Integer, Integer> getFreqList(String[] keyWords) {
 
@@ -150,11 +141,6 @@ public class SearchEngine {
 
 			TST<Integer> tst = new TST<Integer>();
 			tst = SearchEngine.getTST(finalPath);
-			// System.out.println(tst);
-
-//	        for (String key : tst.keys()) {
-//	        	System.out.println(key + " " + tst.get(key));
-//	        }
 
 			int counter = 0;
 
@@ -169,44 +155,27 @@ public class SearchEngine {
 
 			freqList.put(fileIndex, counter);
 		}
-
-		// System.out.println(freqList);
 		return freqList;
 	}
 
 	/**
-	 * This method is responsible to sort hashmap in descending order based on the
-	 * values
+	 * This method sorts the  hashmap 
 	 * 
-	 * @param freqList
-	 * @return
+	 * @param freqList - the hashmap containing the file name and frequency
+	 * @return sortedHashMap - the sorted hashmap 
 	 */
 	public static HashMap<Integer, Integer> sortHashMap(HashMap<Integer, Integer> freqList) {
-		/*HashMap<Integer, Integer> sortedFreqList = freqList.entrySet().stream()
+		HashMap<Integer, Integer> sortedHashMap = freqList.entrySet().stream()
 				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-				.collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2, LinkedHashMap::new));
+				.collect(toMap(k -> k.getKey(), k -> k.getValue(), (k1, k2) -> k2, LinkedHashMap::new));
 
-		return sortedFreqList;*/
-		
-		// piyush
-		HashMap<Integer, Integer> sortedFreqList = freqList.entrySet().stream()
-		        .sorted(Comparator.comparingInt(e -> -e.getValue()))
-		        .collect(Collectors.toMap(
-		                Map.Entry::getKey,
-		                Map.Entry::getValue,
-		                (a, b) -> { throw new AssertionError(); },
-		                LinkedHashMap::new
-		        ));
-		System.out.println("Unsorted freq list (key, value=frequency) ->" + freqList);
-		System.out.println("sorted freq list (key, value=frequency) -> " + sortedFreqList);
-		return sortedFreqList;
+		return sortedHashMap;
 	}
 
 	/**
-	 * This method is used to store the frequency list hashmap used for Page Ranking
+	 * This method saves the sorted hash file to memory
 	 * 
-	 * @param freqList
-	 * @param keyWords
+	 * @param freqList - sorted hash map  
 	 */
 	public static void storeHashMap(HashMap<Integer, Integer> freqList, String[] keyWords) {
 
@@ -241,11 +210,10 @@ public class SearchEngine {
 	}
 
 	/**
-	 * This method is used to retrieve the frequency list hashmap used for Page
-	 * Ranking
+	 * This method retrieves the sorted hash map from memory
 	 * 
-	 * @param keyWords
-	 * @return
+	 * @param keyWords - tokenized input
+	 * @return - the hashmap retrieved from memory
 	 */
 	public static HashMap<Integer, Integer> retreiveHashMap(String[] keyWords) {
 
@@ -277,35 +245,19 @@ public class SearchEngine {
 
 			e.printStackTrace();
 		}
-		// piyush
-		System.out.println("Sorted frequency list (key, value=frequency) -> " + freqList);
+
 		return freqList;
 
 	}
-//	
 
-	/**
-	 * This method is responsible for all the process, main driver function
-	 * 
-	 * @param args
-	 * @throws IOException 
-	 */
-	public static void main(String[] args) throws IOException {
-		SpellChecker1 c= new SpellChecker1();
+	public static void main(String[] args) {
 
-		File dir = new File("TextFile");
-		File[] fileslist = dir.listFiles();
-		for (File file : fileslist) {
-			if (file.isFile()) {
-				c.loadDictionary("TextFile/" + file.getName());
-				
-			}
-		}
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter your search: ");
+		String mySearch = sc.nextLine();
+		sc.close();
 
-		
-		
-		String[] keyWords = SearchEngine.getKeywords(c.Correct_String());
-		System.out.println(c.Correct_String());
+		String[] keyWords = SearchEngine.getKeywords(mySearch);
 		Sort.mergeSort(keyWords);
 
 		String fileName = "";
@@ -334,17 +286,12 @@ public class SearchEngine {
 		HashMap<Integer, String> urlIndex = new HashMap<Integer, String>();
 		urlIndex = SearchEngine.indexURLS();
 		HashMap<Integer, Integer> freqList = new HashMap<Integer, Integer>();
-		
-		//piyush
-		long start1=0, finish1=0,total1=0,start2=0,finish2=0,total2=0;
 
 		if (fileExist == true) {
-			//piyush
-			start1=System.currentTimeMillis();
-			
+
 			freqList = SearchEngine.retreiveHashMap(keyWords);
 
-			System.out.println("\nTop Ten Search Results for \"" + c.Correct_String() + "\" are:\n");
+			System.out.println("\nTop Ten Search Results for \"" + mySearch + "\" are:\n");
 
 			int j = 0;
 			for (HashMap.Entry<Integer, Integer> entry : freqList.entrySet()) {
@@ -360,20 +307,15 @@ public class SearchEngine {
 					break;
 				}
 			}
-			//piyush
-			finish1=System.currentTimeMillis();
-			total1 = finish1 - start1;
-			System.out.println("\nTime taken for search WITH already present cache file (" + fileName + ") = " + total1 + " ms");
+
 		} else if (fileExist == false) {
-			//piyush
-			start2=System.currentTimeMillis();
-			
+
 			freqList = SearchEngine.getFreqList(keyWords);
 			freqList = SearchEngine.sortHashMap(freqList);
 
 			SearchEngine.storeHashMap(freqList, keyWords);
 
-			System.out.println("\nTop Ten Search Results for \"" + c.Correct_String() + "\" are:\n");
+			System.out.println("\nTop Ten Search Results for \"" + mySearch + "\" are:\n");
 			int j = 0;
 
 			for (HashMap.Entry<Integer, Integer> entry : freqList.entrySet()) {
@@ -390,30 +332,7 @@ public class SearchEngine {
 					break;
 				}
 			}
-			//piyush
-			finish2 = System.currentTimeMillis();
-			total2 = finish2 - start2;
-			System.out.println("\nTime taken for search WITHOUT cache file = " + total2 + " ms");
-			
-			// Steps for caching implemented
-			/*
-			String is input by the user and spell check is done
-			The Stop words (words which are avoided for the search so that we can focus on the important words) are removed from the string
-			the string is tokenized
-			it is then sorted
-			fileNAME is generated for the search
-			checking if the file is already present or not
-			if the file exists
-				urls are indexed using hashmap and assigned a key
-				hashmap used for page ranking is retreived which uses the frequency list of the searched keywords
-				using the sorted list (hashmap), the top results for the search are displayed
-			if the file is NOT present
-				urls are indexed using hashmap and assigned a key
-				the frequency list of the keywords searched is obtained and stored in Hashmap
-				the Hashmap is sorted and the file created is stored
-				using the sorted list (hashmap), the top results for the search are displayed
-			Time of the caching process is calculated.
-			*/
+
 		}
 
 	}
