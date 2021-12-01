@@ -17,7 +17,7 @@ public class SpellChecker1 {
 	static String wantToContinue = "yes";
 	static String word;
 	String suggestion;
-	//SpellChecker1 check = new SpellChecker1();
+	
 	static String wordlist[];
 	static String final_query;
 
@@ -30,8 +30,8 @@ public class SpellChecker1 {
 	public static String Correct_String() throws IOException
 	{
 		 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-		// check.loadDictionary("src/files/dictionary.txt");
-		// as long as the user wants to continue running the program, progress.
+		
+		//to take input from the user
 		while (wantToContinue.equalsIgnoreCase("yes")) {
 			// ask the user for a word to spell check.
 			System.out.print("Please enter your search. >> ");
@@ -113,20 +113,21 @@ public class SpellChecker1 {
 		} // catch
 	} // loadDictionary
 
+	// find minimum operation required for word correction
 	private static int findTheMinimum(int a, int b, int c) {
 		int minimum = a;
 
 		// find the minimum of the three values a, b, and c.
 		if (b < minimum) {
 			minimum = b;
-		} // if
+		} 
 
 		if (c < minimum) {
 			minimum = c;
-		} // if
+		} 
 
 		return minimum;
-	} // findTheMinimum
+	} 
 
 	private static int findDifference(String inputWord, String testWord) {
 		int n, m;
@@ -159,9 +160,8 @@ public class SpellChecker1 {
 			testMatrix[0][x] = x;
 		} // for
 
-		// go through the entire matrix. get the character at i column of the input word
-		// and
-		// j row of the test word.
+		// go through the entire matrix. get the character at i column of the input word and j  row for test word
+		
 		for (int i = 1; i <= n; i++) {
 			word1Holder = inputWord.charAt(i - 1);
 
@@ -247,4 +247,4 @@ public class SpellChecker1 {
 		SpellChecker1 check = new SpellChecker1();
 		
 }
-}// SpellChecker
+}
