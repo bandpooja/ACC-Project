@@ -394,6 +394,26 @@ public class SearchEngine {
 			finish2 = System.currentTimeMillis();
 			total2 = finish2 - start2;
 			System.out.println("\nTime taken for search WITHOUT cache file = " + total2 + " ms");
+			
+			// Steps for caching implemented
+			/*
+			String is input by the user and spell check is done
+			The Stop words (words which are avoided for the search so that we can focus on the important words) are removed from the string
+			the string is tokenized
+			it is then sorted
+			fileNAME is generated for the search
+			checking if the file is already present or not
+			if the file exists
+				urls are indexed using hashmap and assigned a key
+				hashmap used for page ranking is retreived which uses the frequency list of the searched keywords
+				using the sorted list (hashmap), the top results for the search are displayed
+			if the file is NOT present
+				urls are indexed using hashmap and assigned a key
+				the frequency list of the keywords searched is obtained and stored in Hashmap
+				the Hashmap is sorted and the file created is stored
+				using the sorted list (hashmap), the top results for the search are displayed
+			Time of the caching process is calculated.
+			*/
 		}
 
 	}
